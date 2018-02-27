@@ -10,7 +10,7 @@ import (
 
 // RequestAPI returns Conekta API response
 func RequestAPI(method string, url string, params ParamsConverter) ([]byte, *Error) {
-	dp := GetParams()
+	dp := defaultParams
 	requestURL := BuildURL(url, dp)
 
 	client := &http.Client{}
@@ -37,15 +37,15 @@ func RequestAPI(method string, url string, params ParamsConverter) ([]byte, *Err
 
 // BuildURL returns base api plus endpoint passed
 func BuildURL(url string, p *conektaParams) string {
-	return p.APIBase + url
+	return p.apiBase + url
 }
 
 // setHeader set req object (htttp.Request) with conekta required headers to auth and identify request
 func setHeaders(r *http.Request, p *conektaParams) *http.Request {
-	r.Header.Set("Accept", "application/vnd.conekta-v"+p.APIVersion+"+json")
-	r.Header.Set("Accept-Language", p.Locale)
-	r.Header.Set("User-Agent", "Conekta/v1 GoBindings/"+p.Version)
-	r.Header.Set("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(p.APIKey)))
+	r.Header.Set("Accept", "application/vnd.conekta-v"+p.apiVersion+"+json")
+	r.Header.Set("Accept-Language", p.locale)
+	r.Header.Set("User-Agent", "Conekta/v1 GoBindings/"+p.version)
+	r.Header.Set("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(p.apiKey)))
 	r.Header.Set("Content-Type", "application/json")
 	return r
 }

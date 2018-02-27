@@ -1,27 +1,23 @@
 package conekta
 
+//
+var APIKey string
+
+//
+var Locale string
+
 type conektaParams struct {
-	APIKey     string
-	APIBase    string
-	APIVersion string
-	Locale     string
-	Version    string
+	apiKey     string
+	apiBase    string
+	apiVersion string
+	locale     string
+	version    string
 }
 
-var defaultParams *conektaParams
-
-// Init return conekta default params
-func Init() *conektaParams {
-	defaultParams = &conektaParams{
-		APIBase:    "https://api.conekta.io",
-		APIVersion: "2.0.0",
-		Locale:     "es",
-		Version:    "0.0.1",
-	}
-	return defaultParams
-}
-
-//GetParams returns defaultParams once this is initializated
-func GetParams() *conektaParams {
-	return defaultParams
+var defaultParams = &conektaParams{
+	apiKey:     APIKey,
+	locale:     Locale,
+	apiBase:    "https://api.conekta.io",
+	apiVersion: "2.0.0",
+	version:    "0.0.1",
 }
