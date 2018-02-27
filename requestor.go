@@ -1,29 +1,38 @@
 package conekta
 
 import (
+	"bytes"
 	"encoding/base64"
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
 
-// RequestAPI returns conekta api response
-func RequestAPI(method string, url string) []byte {
-	params := GetParams()
-
-	requestURL := BuildURL(url, params)
+// RequestAPI returns Conekta API response
+func RequestAPI(method string, url string, params ParamsConverter) ([]byte, *Error) {
+	dp := GetParams()
+	requestURL := BuildURL(url, dp)
 
 	client := &http.Client{}
-	req, _ := http.NewRequest(method, requestURL, nil)
+	req, _ := http.NewRequest(method, requestURL, bytes.NewBuffer(params.Bytes()))
 
-	setHeaders(req, params)
+	setHeaders(req, dp)
 
-	res, _ := client.Do(req)
-	body, err := ioutil.ReadAll(res.Body)
+	res, err := client.Do(req)
+
+	// Client errors
 	if err != nil {
-		panic(err.Error())
+		return nil, getConectionError()
 	}
-	return body
 
+	body, _ := ioutil.ReadAll(res.Body)
+
+	// API errors
+	if res.StatusCode != 200 {
+		return nil, getAPIError(body)
+	}
+
+	return body, nil
 }
 
 // BuildURL returns base api plus endpoint passed
@@ -39,4 +48,17 @@ func setHeaders(r *http.Request, p *conektaParams) *http.Request {
 	r.Header.Set("Authorization", "Basic "+base64.StdEncoding.EncodeToString([]byte(p.APIKey)))
 	r.Header.Set("Content-Type", "application/json")
 	return r
+}
+
+// New creates a new Conekta POST request,
+// it takes a reference struct of conekta's models like
+// &conekta.Customer{} and fills it with the response
+// if the response has a Conekta's error it returns it and keep empty the Conekta model
+func New(v interface{}, p ParamsConverter, endpoint string) *Error {
+	res, err := RequestAPI("POST", endpoint, p)
+	if err != nil {
+		return err
+	}
+	json.Unmarshal(res, v)
+	return nil
 }
