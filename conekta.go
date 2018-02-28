@@ -1,23 +1,31 @@
 package conekta
 
-//
+// TestKey is Conekta test key
+const TestKey = "key_ZLy4aP2szht1HqzkCezDEA"
+
+const (
+	apiBase    = "https://api.conekta.io"
+	apiVersion = "2.0.0"
+	version    = "0.0.1"
+)
+
+// APIKey is Conekta private_key
+// For details see https://developers.conekta.com/api#authentication
 var APIKey string
 
-//
+// Locale is a settings for localization language
 var Locale string
 
-type conektaParams struct {
-	apiKey     string
-	apiBase    string
-	apiVersion string
-	locale     string
-	version    string
+// ListMeta describes common metadata for lists
+type ListMeta struct {
+	Object      string `json:"object,omitempty"`
+	HasMore     bool   `json:"has_more,omitempty"`
+	Total       int    `json:"total,omitempty"`
+	NextPageURL string `json:"next_page_url,omitempty"`
 }
 
-var defaultParams = &conektaParams{
-	apiKey:     APIKey,
-	locale:     Locale,
-	apiBase:    "https://api.conekta.io",
-	apiVersion: "2.0.0",
-	version:    "0.0.1",
-}
+// EmptyParams is used in requests that don't need params
+type EmptyParams struct{}
+
+// Bytes converts a EmptyParams to []byte
+func (p *EmptyParams) Bytes() []byte { return []byte{} }
