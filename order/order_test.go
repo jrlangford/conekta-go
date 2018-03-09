@@ -11,6 +11,10 @@ func init() {
 	conekta.APIKey = conekta.TestKey
 }
 
+type Query struct {
+	Currency string `url:"currency,omitempty"`
+}
+
 func TestCreate(t *testing.T) {
 	op := &conekta.OrderParams{}
 	ord, err := Create(op.Mock())
@@ -172,6 +176,17 @@ func TestCapture(t *testing.T) {
 	assert.Equal(t, false, res.PreAuth)
 	assert.Equal(t, "paid", res.PaymentStatus)
 	assert.Nil(t, err)
+}
+
+func TestWhere(t *testing.T) {
+	op := &Query{Currency: "MXN"}
+
+	res, _ := Where(op)
+
+	assert.NotNil(t, res.Total)
+	assert.True(t, res.HasMore)
+	assert.Equal(t, "list", res.Object)
+
 }
 
 func TestFind(t *testing.T) {
