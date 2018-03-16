@@ -35,6 +35,12 @@ type Order struct {
 	Charges         *ChargesList       `json:"charges,omitempty"`
 }
 
+//OrderList is a list of shippingLines
+type OrderList struct {
+	ListMeta
+	Data []*Order `json:"data,omitempty"`
+}
+
 // Bytes converts a ChargeParams to []byte
 func (c *OrderParams) Bytes() []byte {
 	return paramsToBytes(c)

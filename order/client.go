@@ -2,6 +2,7 @@ package order
 
 import (
 	conekta "github.com/conekta/conekta-go"
+	"github.com/google/go-querystring/query"
 )
 
 // Create creates a new order
@@ -37,5 +38,13 @@ func Cancel(orderID string) (*conekta.Order, error) {
 func Find(id string) (*conekta.Order, error) {
 	ord := &conekta.Order{}
 	err := conekta.MakeRequest("GET", "/orders/"+id, &conekta.OrderParams{}, ord)
+	return ord, err
+}
+
+// Where gets a order by querying parameter
+func Where(params interface{}) (*conekta.OrderList, error) {
+	ord := &conekta.OrderList{}
+	v, _ := query.Values(params)
+	err := conekta.MakeRequest("GET", "/orders?"+v.Encode(), &conekta.OrderParams{}, ord)
 	return ord, err
 }
