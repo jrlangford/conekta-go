@@ -22,14 +22,14 @@ func TestCreate(t *testing.T) {
 }
 
 func TestCreateError(t *testing.T) {
-	if _, err := Create(&conekta.TokenParams{}); err != nil {
-		conektaErr := err.(*conekta.Error)
-		assert.NotNil(t, conektaErr)
-		assert.Equal(t, conektaErr.ErrorType, "parameter_validation_error")
-		assert.Equal(t, conektaErr.Details[0].Message, "The \"card\" parameter is missing but is a required attribute for token.")
-		assert.Equal(t, conektaErr.Details[0].MessageToPurchaser, "El pago no pudo ser procesado.")
-		assert.Equal(t, conektaErr.Details[0].Code, "")
-		assert.Equal(t, conektaErr.Details[0].Param, "card")
-	}
+	_, err := Create(&conekta.TokenParams{})
+	if err, ok := err.(conekta.Error); ok {
 
+		assert.NotNil(t, err)
+		assert.Equal(t, err.ErrorType, "parameter_validation_error")
+		assert.Equal(t, err.Details[0].Message, "The \"card\" parameter is missing but is a required attribute for token.")
+		assert.Equal(t, err.Details[0].MessageToPurchaser, "El pago no pudo ser procesado.")
+		assert.Equal(t, err.Details[0].Code, "")
+		assert.Equal(t, err.Details[0].Param, "card")
+	}
 }
