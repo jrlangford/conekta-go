@@ -6,9 +6,9 @@ import (
 
 // Create creates a new customer
 // For details see https://developers.conekta.com/api#create-customer
-func Create(p *conekta.CustomerParams) (*conekta.Customer, error) {
+func Create(p *conekta.CustomerParams, customHeaders ...interface{}) (*conekta.Customer, error) {
 	cust := &conekta.Customer{}
-	err := conekta.MakeRequest("POST", "/customers", p, cust)
+	err := conekta.MakeRequest("POST", "/customers", p, cust, customHeaders...)
 	return cust, err
 }
 
