@@ -24,6 +24,7 @@ type Charge struct {
 	CustomerID    string         `json:"customer_id,omitempty"`
 	Livemode      bool           `json:"livemode,omitempty"`
 	CreatedAt     int64          `json:"created_at,omitempty"`
+	PaidAt        int64          `json:"paid_at,omitempty"`
 	Currency      string         `json:"currency,omitempty"`
 	Description   string         `json:"description,omitempty"`
 	PaymentMethod *PaymentMethod `json:"payment_method,omitempty"`

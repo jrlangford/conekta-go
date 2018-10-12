@@ -36,6 +36,7 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, "MXN", res.Currency)
 	assert.Equal(t, "charge", res.Object)
 	assert.Equal(t, "paid", res.Status)
+	assert.NotNil(t, res.PaidAt)
 	assert.Equal(t, int64(1151), res.Amount)
 	assert.Equal(t, int64(328), res.Fee)
 	assert.NotEqual(t, nil, res.Description)
