@@ -73,7 +73,7 @@ type ResponseHash struct {
 // Capture should be nested struct of ResponseHash
 type Capture struct {
 	// TODO: Add all 'capture' fields
-	Auth string `json:"auth,omitempty"`
+	Auth int64 `json:"auth,omitempty"`
 }
 
 //ChargesList is a list of shippingLines
