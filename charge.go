@@ -50,8 +50,9 @@ type PaymentMethod struct {
 	ServiceNumber string          `json:"service_number,omitempty"`
 	ExpiresAt     int64           `json:"expires_at,omitempty"`
 	Description   string          `json:"description,omitempty"`
+	AuthCode      int64           `json:"auth_code,omitempty"`
+	Store         string          `json:"store,omitempty"`
 	Address       *DefaultAddress `json:"address,omitempty"`
-	ResponseHash  *ResponseHash   `json:"response_hash,omitempty"`
 }
 
 //DefaultAddress should be nested struct of PaymentMethod
@@ -63,17 +64,6 @@ type DefaultAddress struct {
 	Country    string `json:"country,omitempty"`
 	Object     string `json:"object,omitempty"`
 	PostalCode string `json:"postal_code,omitempty"`
-}
-
-// ResponseHash should be nested struct of PaymentMethod
-type ResponseHash struct {
-	Capture []*Capture `json:"capture,omitempty"`
-}
-
-// Capture should be nested struct of ResponseHash
-type Capture struct {
-	// TODO: Add all 'capture' fields
-	Auth int64 `json:"auth,omitempty"`
 }
 
 //ChargesList is a list of shippingLines
