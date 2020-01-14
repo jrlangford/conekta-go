@@ -197,17 +197,15 @@ func (p *TokenParams) Mock() *TokenParams {
 func (p *CardParams) Mock() *CardParams {
 	p.Number = "4242424242424242"
 	p.Name = "Eduardo Enriquez"
-	p.ExpMonth = "12"
-	p.ExpYear = "2020"
+	p.ExpMonth = time.Now().Format("01")
+	p.ExpYear = time.Now().AddDate(1, 0, 0).Format("2006")
 	p.Cvc = "123"
 	return p
 }
 
 // Mock fills WebhookParams with dummy data
 func (p *WebhookParams) Mock() *WebhookParams {
-	p.URL = "c.testgowebhook.com"
-	p.DevelopmentEnabled = true
-	p.ProductionEnabled = false
+	p.URL = "https://c.testgowebhook.com"
 	return p
 }
 

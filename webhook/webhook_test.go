@@ -30,7 +30,7 @@ func TestCreateError(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	whp := &conekta.WebhookParams{}
 	wh, _ := Create(whp.Mock())
-	newURL := "anotherurl.com"
+	newURL := "https://www.anotherurl.com"
 	whp.URL = newURL
 	wh, err := Update(wh.ID, whp)
 	assert.Equal(t, newURL, wh.URL)
