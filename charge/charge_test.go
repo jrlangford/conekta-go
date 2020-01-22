@@ -9,6 +9,7 @@ import (
 	"github.com/conekta/conekta-go/customer"
 	"github.com/conekta/conekta-go/order"
 	"github.com/conekta/conekta-go/paymentsource"
+	"time"
 )
 
 func init() {
@@ -93,8 +94,8 @@ func TestFind(t *testing.T) {
 	assert.Equal(t, res.PaymentMethod.Last4, "4242")
 	assert.Equal(t, res.PaymentMethod.Brand, "visa")
 	assert.Equal(t, res.PaymentMethod.Name, "Jorge Lopez")
-	assert.Equal(t, res.PaymentMethod.ExpMonth, "12")
-	assert.Equal(t, res.PaymentMethod.ExpYear, "19")
+	assert.Equal(t, res.PaymentMethod.ExpMonth, time.Now().Format("01"))
+	assert.Equal(t, res.PaymentMethod.ExpYear, time.Now().AddDate(1, 0, 0).Format("06"))
 }
 
 func TestFindError(t *testing.T) {
