@@ -54,15 +54,19 @@ orderParams.LineItems = append(orderParams.LineItems, lineItemParams)
 orderParams.Charges = append(orderParams.Charges, chargeParams)
 
 ord, err := order.Create(orderParams)
-if err != nil {
-	code := err.(conekta.Error).Details[0].Code
-	//do something
-} else {
-	orderId := order.ID
-	chargeId := ord.Charges.Data[0].ID
-	oxxoReference := ord.Charges.Data[0].PaymentMethod.Reference
-	//do something
-}
+	if err != nil {
+		code := err.(conekta.Error).Details[0].Code
+		//do something
+		fmt.Println(code)
+	} else {
+		orderId := ord.ID
+		chargeId := ord.Charges.Data[0].ID
+		oxxoReference := ord.Charges.Data[0].PaymentMethod.Reference
+		//do something
+		fmt.Println(orderId)
+		fmt.Println(chargeId)
+		fmt.Println(oxxoReference)
+	}
 ```
 
 ## Run Tests
