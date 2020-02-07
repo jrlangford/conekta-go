@@ -50,8 +50,8 @@ chargeParams := &conekta.ChargeParams{
 orderParams := &conekta.OrderParams{}
 orderParams.Currency = "MXN"
 orderParams.CustomerInfo = customerParams
-orderParams.LineItems = append(op.LineItems, lineItemParams)
-orderParams.Charges = append(op.Charges, chargeParams)
+orderParams.LineItems = append(orderParams.LineItems, lineItemParams)
+orderParams.Charges = append(orderParams.Charges, chargeParams)
 
 ord, err := order.Create(orderParams)
 if err != nil {
@@ -59,8 +59,8 @@ if err != nil {
 	//do something
 } else {
 	orderId := order.ID
-	chargeId := o.Charges.Data[0].ID
-	oxxoReference := o.Charges.Data[0].PaymentMethod.Reference
+	chargeId := ord.Charges.Data[0].ID
+	oxxoReference := ord.Charges.Data[0].PaymentMethod.Reference
 	//do something
 }
 ```
