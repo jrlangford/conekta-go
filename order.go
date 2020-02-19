@@ -29,6 +29,7 @@ type OrderParams struct {
 	ShippingContact *ShippingContactParams `json:"shipping_contact,omitempty"`
 	DiscountLines   []*DiscountLinesParams `json:"discount_lines,omitempty"`
 	ShippingLines   []*ShippingLinesParams `json:"shipping_lines,omitempty"`
+	Metadata        struct{}               `json:"metadata,omitempty"`
 	Charges         []*ChargeParams        `json:"charges,omitempty"`
 }
 

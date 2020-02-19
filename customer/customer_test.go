@@ -20,6 +20,7 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, cp.Corporate, cust.Corporate)
 	assert.Equal(t, len(cp.ShippingContacts), cust.ShippingContacts.Total)
 	assert.Equal(t, len(cp.PaymentSources), cust.PaymentSources.Total)
+	assert.Equal(t, cp.DefaultPaymentSourceID, cust.DefaultPaymentSourceID)
 	assert.Nil(t, err)
 }
 

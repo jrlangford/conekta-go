@@ -55,8 +55,9 @@ func TestCreateWithPaymentSource(t *testing.T) {
 
 	cp := &conekta.ChargeParams{
 		PaymentMethodParams: &conekta.PaymentMethodParams{
-			Type:            "card",
-			PaymentSourceID: ps.ID,
+			MonthlyInstallments: 3,
+			Type:                "card",
+			PaymentSourceID:     ps.ID,
 		},
 	}
 
