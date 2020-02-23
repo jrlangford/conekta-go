@@ -49,7 +49,7 @@ func (p *CustomerParams) MockMinimal() *CustomerParams {
 // Mock fills LineItemsParams with dummy data
 func (li *LineItemsParams) Mock() *LineItemsParams {
 	li.Name = "HotDog"
-	li.UnitPrice = 1000
+	li.UnitPrice = 50000
 	li.Quantity = 1
 	return li
 }
