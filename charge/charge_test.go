@@ -38,8 +38,8 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, "charge", res.Object)
 	assert.Equal(t, "paid", res.Status)
 	assert.NotNil(t, res.PaidAt)
-	assert.Equal(t, int64(1151), res.Amount)
-	assert.Equal(t, int64(328), res.Fee)
+	assert.Equal(t, int64(50151), res.Amount)
+	assert.Equal(t, int64(1977), res.Fee)
 	assert.NotEqual(t, nil, res.Description)
 	assert.Equal(t, "", res.CustomerID)
 	assert.NotEqual(t, nil, res.OrderID)
@@ -55,8 +55,9 @@ func TestCreateWithPaymentSource(t *testing.T) {
 
 	cp := &conekta.ChargeParams{
 		PaymentMethodParams: &conekta.PaymentMethodParams{
-			Type:            "card",
-			PaymentSourceID: ps.ID,
+			MonthlyInstallments: 3,
+			Type:                "card",
+			PaymentSourceID:     ps.ID,
 		},
 	}
 
@@ -71,6 +72,7 @@ func TestCreateWithPaymentSource(t *testing.T) {
 
 	assert.Equal(t, "paid", ord.PaymentStatus)
 	assert.Equal(t, cust.ID, ord.CustomerInfo.CustomerID)
+	assert.Equal(t, 3, ord.Charges.Data[0].PaymentMethod.MonthlyInstallments)
 	assert.NotEqual(t, nil, ord.CreatedAt)
 	assert.Nil(t, err)
 }
