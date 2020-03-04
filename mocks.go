@@ -58,7 +58,7 @@ func (li *LineItemsParams) Mock() *LineItemsParams {
 func (p *ChargeParams) Mock() *ChargeParams {
 	pm := &PaymentMethodParams{}
 
-	p.PaymentMethodParams = pm.Mock()
+	p.PaymentMethod = pm.Mock()
 	return p
 }
 
@@ -66,7 +66,7 @@ func (p *ChargeParams) Mock() *ChargeParams {
 func (p *ChargeParams) OxxoMock() *ChargeParams {
 	pm := &PaymentMethodParams{}
 
-	p.PaymentMethodParams = pm.OxxoMock()
+	p.PaymentMethod = pm.OxxoMock()
 	return p
 }
 

@@ -2,7 +2,7 @@ package conekta
 
 //ChargeParams is the object to fill after api call
 type ChargeParams struct {
-	PaymentMethodParams *PaymentMethodParams `json:"payment_method,omitempty"`
+	PaymentMethod *PaymentMethodParams `json:"payment_method,omitempty"`
 }
 
 //PaymentMethodParams is the object to fill after api call
@@ -16,19 +16,20 @@ type PaymentMethodParams struct {
 
 //Charge should be a struct of the api response
 type Charge struct {
-	ID            string         `json:"id,omitempty"`
-	Object        string         `json:"object,omitempty"`
-	Status        string         `json:"status,omitempty"`
-	Amount        int64          `json:"amount,omitempty"`
-	Fee           int64          `json:"fee,omitempty"`
-	OrderID       string         `json:"order_id,omitempty"`
-	CustomerID    string         `json:"customer_id,omitempty"`
-	Livemode      bool           `json:"livemode,omitempty"`
-	CreatedAt     int64          `json:"created_at,omitempty"`
-	PaidAt        int64          `json:"paid_at,omitempty"`
-	Currency      string         `json:"currency,omitempty"`
-	Description   string         `json:"description,omitempty"`
-	PaymentMethod *PaymentMethod `json:"payment_method,omitempty"`
+	ID                  string          `json:"id,omitempty"`
+	Object              string          `json:"object,omitempty"`
+	Status              string          `json:"status,omitempty"`
+	Amount              int64           `json:"amount,omitempty"`
+	Fee                 int64           `json:"fee,omitempty"`
+	OrderID             string          `json:"order_id,omitempty"`
+	CustomerID          string          `json:"customer_id,omitempty"`
+	Livemode            bool            `json:"livemode,omitempty"`
+	MonthlyInstallments int64           `json:"monthly_installments,omitempty"`
+	CreatedAt           int64           `json:"created_at,omitempty"`
+	PaidAt              int64           `json:"paid_at,omitempty"`
+	Currency            string          `json:"currency,omitempty"`
+	Description         string          `json:"description,omitempty"`
+	PaymentMethod       *PaymentMethod  `json:"payment_method,omitempty"`
 }
 
 //PaymentMethod should be a struct of the api response
@@ -46,7 +47,6 @@ type PaymentMethod struct {
 	ParentID            string          `json:"parent_id,omitempty"`
 	Default             bool            `json:"default,omitempty"`
 	Reference           string          `json:"reference,omitempty"`
-	MonthlyInstallments int64           `json:"monthly_installments,omniempty"`
 	StoreName           string          `json:"store_name,omitempty"`
 	ServiceName         string          `json:"service_name,omitempty"`
 	ServiceNumber       string          `json:"service_number,omitempty"`
