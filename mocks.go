@@ -1,6 +1,8 @@
 package conekta
 
-import "time"
+import (
+	"time"
+)
 
 // Mock fills CustomerParams with dummy data
 func (p *CustomerParams) Mock() *CustomerParams {
@@ -43,6 +45,15 @@ func (p *CustomerParams) MockMinimal() *CustomerParams {
 	p.Name = "René Daniel"
 	p.Phone = "+525545345654"
 	p.Email = "test@test.com"
+	return p
+}
+
+func (p *CustomerParams) MockCustomerPaymentSource() *CustomerParams {
+	pay := &PaymentSourceCreateParams{}
+	p.Name = "René Daniel"
+	p.Phone = "+525545345654"
+	p.Email = "test@test.com"
+	p.PaymentSources = append(p.PaymentSources, pay.Mock())
 	return p
 }
 
@@ -253,3 +264,54 @@ func (p *OrderRefundParams) Mock() *OrderRefundParams {
 	p.Reason = OrderRefundRequestedByClient
 	return p
 }
+
+// Mock fills PlanParams
+func (p *PlanParams) MockPlanCreate() *PlanParams {
+	p.Name = "bronze"
+	p.Amount = 10000
+	p.Interval = "month"
+	p.Frequency = 1
+	p.TrialPeriodDays = 15
+	p.ExpiryCount = 6
+	return p
+}
+
+func (p *PlanParams) MockPlan() *PlanParams {
+	p.ID = "bronze"
+	p.Name = "bronze"
+	p.Amount = 10000
+	p.Interval = "month"
+	p.Frequency = 1
+	p.TrialPeriodDays = 15
+	p.ExpiryCount = 6
+	return p
+}
+
+//Mock fills Update PlanParams
+func (p *PlanParams) MockPlanUpdate() *PlanParams {
+	p.ID = "bronze"
+	p.Amount = 9900
+	return p
+}
+
+//Mock fills SubscriptionParams
+/*
+func (p *SubscriptionParams) MockSubCreate() *SubscriptionParams {
+	cu := &CustomerParams{}
+	pl := &PlanParams{}
+
+	pla := pl.MockPlan()
+	c := &customer.Create(cu.MockCustomerPaymentSource())
+
+
+
+	d, _ := json.Marshal(c)
+	e := string(d)
+	fmt.Println("--Es el customer de mocks: ",e)
+
+	//p.CustomerID = c.ID
+	p.PlanID = pla.ID
+	p.CardID = c.DefaultPaymentSourceID
+	return p
+}
+*/

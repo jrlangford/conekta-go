@@ -2,7 +2,6 @@ package order
 
 import (
 	"testing"
-
 	conekta "github.com/conekta/conekta-go"
 	"github.com/stretchr/testify/assert"
 )
