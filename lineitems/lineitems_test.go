@@ -2,9 +2,7 @@ package lineitems
 
 import (
 	"testing"
-
 	"github.com/stretchr/testify/assert"
-
 	conekta "github.com/conekta/conekta-go"
 	"github.com/conekta/conekta-go/order"
 )

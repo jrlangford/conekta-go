@@ -1,0 +1,93 @@
+package subscription
+
+import (
+	conekta "github.com/conekta/conekta-go"
+	"github.com/conekta/conekta-go/customer"
+	"github.com/conekta/conekta-go/plan"
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func init() {
+	conekta.APIKey = conekta.TestKey
+}
+
+func CreateCustomerTest() (*conekta.Customer, error){
+	cus := &conekta.CustomerParams{}
+	c, err := customer.Create(cus.MockCustomerPaymentSource())
+	return c, err
+}
+
+func CreatePlanTest() (*conekta.Plan, error) {
+	pl := &conekta.PlanParams{}
+	p, err := plan.Create(pl.MockPlanCreate())
+	return p, err
+}
+
+func TestCreate(t *testing.T){
+	c, _ := CreateCustomerTest()
+	p, _ := CreatePlanTest()
+
+	sp := &conekta.SubscriptionParams{
+		PlanID: p.ID,
+		CardID: c.DefaultPaymentSourceID,
+	}
+	sub, err := Create(c.ID, sp)
+
+	assert.Equal(t, sp.CardID, sub.CardID)
+	assert.Equal(t, sp.PlanID, sub.PlanID)
+
+	assert.Nil(t, err)
+}
+
+
+func TestCreateError(t *testing.T) {
+	cus := &conekta.CustomerParams{}
+	_, err := Create(cus.ID, &conekta.SubscriptionParams{})
+	assert.NotNil(t, err)
+	assert.Equal(t, err.(conekta.Error).ErrorType, "parameter_validation_error")
+}
+
+
+func TestResume(t *testing.T) {
+	c, _ := CreateCustomerTest()
+	p, _ := CreatePlanTest()
+
+	sp := &conekta.SubscriptionParams{
+		PlanID: p.ID,
+		CardID: c.DefaultPaymentSourceID,
+	}
+	sub, _ := Create(c.ID, sp)
+	Pause(sub.CustomerID)
+
+	_, err := Resume(sub.CustomerID)
+	assert.Nil(t, err)
+}
+
+func TestPause(t *testing.T) {
+	c, _ := CreateCustomerTest()
+	p, _ := CreatePlanTest()
+
+	sp := &conekta.SubscriptionParams{
+		PlanID: p.ID,
+		CardID: c.DefaultPaymentSourceID,
+	}
+	sub, _ := Create(c.ID, sp)
+
+	_, err := Pause(sub.CustomerID)
+	assert.Nil(t, err)
+}
+
+func TestCancel(t *testing.T) {
+	c, _ := CreateCustomerTest()
+	p, _ := CreatePlanTest()
+
+	sp := &conekta.SubscriptionParams{
+		PlanID: p.ID,
+		CardID: c.DefaultPaymentSourceID,
+	}
+	sub, _ := Create(c.ID, sp)
+
+	_, err := Cancel(sub.CustomerID)
+	assert.Nil(t, err)
+}
