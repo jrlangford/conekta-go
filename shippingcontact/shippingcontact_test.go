@@ -91,6 +91,6 @@ func TestDeleteFromCustomerError(t *testing.T) {
 func TestAllFromCustomer(t *testing.T) {
 	_, c, _ := createCustomerSC()
 	scl, err := All(c.ID)
-	assert.NotZero(t, scl.Total)
+	assert.NotZero(t, len(scl.Data))
 	assert.Nil(t, err)
 }

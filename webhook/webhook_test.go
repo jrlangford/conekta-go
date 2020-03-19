@@ -72,7 +72,7 @@ func TestAll(t *testing.T) {
 	whp := &conekta.WebhookParams{}
 	wh, _ := Create(whp.Mock())
 	whl, err := All()
-	assert.NotZero(t, whl.Total)
+	assert.NotZero(t, len(whl.Data))
 	assert.Nil(t, err)
 	Delete(wh.ID)
 }

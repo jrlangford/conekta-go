@@ -18,8 +18,7 @@ func TestCreate(t *testing.T) {
 	assert.Equal(t, cp.Name, cust.Name)
 	assert.Equal(t, cp.Phone, cust.Phone)
 	assert.Equal(t, cp.Corporate, cust.Corporate)
-	assert.Equal(t, len(cp.ShippingContacts), cust.ShippingContacts.Total)
-	assert.Equal(t, len(cp.PaymentSources), cust.PaymentSources.Total)
+	assert.NotZero(t, len(cust.ShippingContacts.Data))
 	assert.Nil(t, err)
 }
 
@@ -37,8 +36,8 @@ func TestCreateWithCardAsPaymentSource(t *testing.T) {
 	assert.Equal(t, cp.Name, cust.Name)
 	assert.Equal(t, cp.Phone, cust.Phone)
 	assert.Equal(t, cp.Corporate, cust.Corporate)
-	assert.Equal(t, len(cp.ShippingContacts), cust.ShippingContacts.Total)
-	assert.Equal(t, len(cp.PaymentSources), cust.PaymentSources.Total)
+	assert.NotZero(t, len(cust.ShippingContacts.Data))
+	assert.NotZero(t, len(cust.PaymentSources.Data))
 	assert.NotNil(t, cust.DefaultPaymentSourceID)
 	assert.Nil(t, err)
 }
@@ -102,6 +101,6 @@ func TestAll(t *testing.T) {
 	cp := &conekta.CustomerParams{}
 	Create(cp.Mock())
 	cl, err := All()
-	assert.NotZero(t, cl.Total)
+	assert.NotZero(t, len(cl.Data))
 	assert.Nil(t, err)
 }
