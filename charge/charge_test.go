@@ -84,6 +84,15 @@ func TestCreateError(t *testing.T) {
 	assert.Equal(t, err.(conekta.Error).ErrorType, "parameter_validation_error")
 }
 
+func TestProcessingError(t *testing.T) {
+	ord, _ := CreateOrderWithoutCharges()
+	chargeParams := (&conekta.ChargeParams{}).Mock()
+	chargeParams.PaymentMethod.TokenID = "tok_test_card_declined"
+	ch, err := Create(ord.ID, chargeParams)
+	assert.Nil(t, err)
+	assert.Equal(t, ch.Status, "declined")
+}
+
 func TestFind(t *testing.T) {
 	ord, _ := CreateOrder()
 	res, _ := Find(ord.ID, ord.Charges.Data[0].ID)

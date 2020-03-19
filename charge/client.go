@@ -2,6 +2,7 @@ package charge
 
 import (
 	conekta "github.com/conekta/conekta-go"
+	"encoding/json"
 )
 
 //Create charges object sending requesto api
@@ -9,6 +10,10 @@ import (
 func Create(orderID string, p *conekta.ChargeParams) (*conekta.Charge, error) {
 	ch := &conekta.Charge{}
 	err := conekta.MakeRequest("POST", "/orders/"+orderID+"/charges", p, ch)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, ch)
+		return ch, nil
+	}
 	return ch, err
 }
 
