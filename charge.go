@@ -20,7 +20,6 @@ type Charge struct {
 	Object              string          `json:"object,omitempty"`
 	Status              string          `json:"status,omitempty"`
 	Amount              int64           `json:"amount,omitempty"`
-	Fee                 int64           `json:"fee,omitempty"`
 	OrderID             string          `json:"order_id,omitempty"`
 	CustomerID          string          `json:"customer_id,omitempty"`
 	Livemode            bool            `json:"livemode,omitempty"`

@@ -64,7 +64,6 @@ type WebhookNotificationObject struct {
 	CreatedAt      int64                      `json:"created_at,omitempty"`
 	UpdatedAt      int64                      `json:"updated_at,omitempty"`
 	PaidAt         int64                      `json:"paid_at,omitempty"`
-	Fee            int64                      `json:"fee,omitempty"`
 	AmountRefunded int64                      `json:"amount_refunded,omitempty"`
 	Amount         int64                      `json:"amount,omitempty"`
 	Livemode       bool                       `json:"livemode,omitempty"`
