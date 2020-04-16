@@ -27,7 +27,6 @@ var Locale string
 type ListMeta struct {
 	Object      string `json:"object,omitempty"`
 	HasMore     bool   `json:"has_more,omitempty"`
-	Total       int    `json:"total,omitempty"`
 	NextPageURL string `json:"next_page_url,omitempty"`
 }
 

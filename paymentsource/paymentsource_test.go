@@ -106,6 +106,6 @@ func TestDeleteError(t *testing.T) {
 func TestAll(t *testing.T) {
 	_, c, _ := createPaymentSource()
 	psl, err := All(c.ID)
-	assert.NotZero(t, psl.Total)
+	assert.NotZero(t, len(psl.Data))
 	assert.Nil(t, err)
 }

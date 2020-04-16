@@ -18,18 +18,15 @@ func TestCreate(t *testing.T) {
 	op := &conekta.OrderParams{}
 	ord, err := Create(op.Mock())
 
-	assert.Equal(t, len(op.DiscountLines), ord.DiscountLines.Total)
 	assert.Equal(t, op.DiscountLines[0].Amount, ord.DiscountLines.Data[0].Amount)
 	assert.Equal(t, op.DiscountLines[0].Code, ord.DiscountLines.Data[0].Code)
 	assert.Equal(t, op.DiscountLines[0].Type, ord.DiscountLines.Data[0].Type)
 	assert.NotEqual(t, nil, ord.DiscountLines.Data[0].ID)
 
-	assert.Equal(t, len(op.TaxLines), ord.TaxLines.Total)
 	assert.Equal(t, int64(op.TaxLines[0].Amount), ord.TaxLines.Data[0].Amount)
 	assert.Equal(t, op.TaxLines[0].Description, ord.TaxLines.Data[0].Description)
 	assert.NotEqual(t, nil, ord.TaxLines.Data[0].ID)
 
-	assert.Equal(t, len(op.LineItems), ord.LineItems.Total)
 	assert.Equal(t, op.LineItems[0].Name, ord.LineItems.Data[0].Name)
 	assert.Equal(t, op.LineItems[0].Quantity, ord.LineItems.Data[0].Quantity)
 	assert.Equal(t, op.LineItems[0].UnitPrice, ord.LineItems.Data[0].UnitPrice)
@@ -89,19 +86,16 @@ func TestOxxoCreate(t *testing.T) {
 	ord, err := Create(op.OxxoMock())
 
 	//root order
-	assert.Equal(t, len(op.DiscountLines), ord.DiscountLines.Total)
 	assert.Equal(t, op.DiscountLines[0].Amount, ord.DiscountLines.Data[0].Amount)
 	assert.Equal(t, op.DiscountLines[0].Code, ord.DiscountLines.Data[0].Code)
 	assert.Equal(t, op.DiscountLines[0].Type, ord.DiscountLines.Data[0].Type)
 	assert.NotEqual(t, nil, ord.DiscountLines.Data[0].ID)
 	//tax lines
-	assert.Equal(t, len(op.TaxLines), ord.TaxLines.Total)
 	assert.Equal(t, int64(op.TaxLines[0].Amount), ord.TaxLines.Data[0].Amount)
 	assert.Equal(t, op.TaxLines[0].Description, ord.TaxLines.Data[0].Description)
 	assert.NotEqual(t, nil, ord.TaxLines.Data[0].ID)
 
 	//line items
-	assert.Equal(t, len(op.LineItems), ord.LineItems.Total)
 	assert.Equal(t, op.LineItems[0].Name, ord.LineItems.Data[0].Name)
 	assert.Equal(t, op.LineItems[0].Quantity, ord.LineItems.Data[0].Quantity)
 	assert.Equal(t, op.LineItems[0].UnitPrice, ord.LineItems.Data[0].UnitPrice)
@@ -215,7 +209,7 @@ func TestWhere(t *testing.T) {
 
 	res, _ := Where(op)
 
-	assert.NotNil(t, res.Total)
+	assert.NotZero(t, len(res.Data))
 	assert.True(t, res.HasMore)
 	assert.Equal(t, "list", res.Object)
 
