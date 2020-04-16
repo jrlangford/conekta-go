@@ -155,6 +155,24 @@ func TestOxxoCreate(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestCreateValidationError(t *testing.T) {
+	op := (&conekta.OrderParams{}).OxxoMock()
+	op.Currency = "aaa"
+	ord, err := Create(op)
+	assert.NotNil(t, err)
+	assert.NotNil(t, err.(conekta.Error).ErrorType, "parameter_validation_error")
+	assert.Equal(t, "", ord.Currency)
+}
+
+func TestCreateProcessingError(t *testing.T) {
+	op := (&conekta.OrderParams{}).Mock()
+	op.Charges[0].PaymentMethod.TokenID = "tok_test_card_declined"
+	ord, err := Create(op)
+	assert.Nil(t, err)
+	assert.Equal(t, "MXN", ord.Currency)
+	assert.Equal(t, "declined", ord.Charges.Data[0].Status)
+}
+
 func TestUpdate(t *testing.T) {
 	op := &conekta.OrderParams{}
 	ord, _ := Create(op.MockWithoutCharges())
@@ -163,6 +181,21 @@ func TestUpdate(t *testing.T) {
 	res, err := Update(ord.ID, op)
 	assert.Nil(t, err)
 	assert.Equal(t, "USD", res.Currency)
+}
+
+func TestUpdateProcessingError(t *testing.T) {
+	op := (&conekta.OrderParams{}).Mock()
+	op.Charges[0].PaymentMethod.TokenID = "tok_test_card_declined"
+	ord, err := Create(op)
+	assert.Nil(t, err)
+	assert.Equal(t, "MXN", ord.Currency)
+	assert.Equal(t, "declined", ord.Charges.Data[0].Status)
+
+	res, err := Update(ord.ID, op)
+	assert.Nil(t, err)
+	assert.Equal(t, "MXN", res.Currency)
+	assert.Equal(t, 2, len(res.Charges.Data))
+	assert.Equal(t, "declined", res.Charges.Data[0].Status)
 }
 
 func TestCapture(t *testing.T) {

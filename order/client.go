@@ -3,12 +3,17 @@ package order
 import (
 	conekta "github.com/conekta/conekta-go"
 	"github.com/google/go-querystring/query"
+	"encoding/json"
 )
 
 // Create creates a new order
 func Create(p *conekta.OrderParams, customHeaders ...interface{}) (*conekta.Order, error) {
 	ord := &conekta.Order{}
 	err := conekta.MakeRequest("POST", "/orders", p, ord, customHeaders...)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, ord)
+		return ord, nil
+	}
 	return ord, err
 }
 
@@ -17,6 +22,10 @@ func Create(p *conekta.OrderParams, customHeaders ...interface{}) (*conekta.Orde
 func Update(id string, p *conekta.OrderParams) (*conekta.Order, error) {
 	ord := &conekta.Order{}
 	err := conekta.MakeRequest("PUT", "/orders/"+id, p, ord)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, ord)
+		return ord, nil
+	}
 	return ord, err
 }
 
