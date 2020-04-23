@@ -2,6 +2,7 @@ package subscription
 
 import (
 	conekta "github.com/conekta/conekta-go"
+	"encoding/json"
 	//"github.com/google/go-querystring/query"
 )
 
@@ -9,6 +10,10 @@ import (
 func Create(id string, p *conekta.SubscriptionParams, customHeaders ...interface{}) (*conekta.Subscription, error) {
 	sub := &conekta.Subscription{}
 	err := conekta.MakeRequest("POST", "/customers/"+id+"/subscription", p, sub, customHeaders...)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, sub)
+		return sub, nil
+	}
 	return sub, err
 }
 
@@ -16,12 +21,20 @@ func Create(id string, p *conekta.SubscriptionParams, customHeaders ...interface
 func Update(id string, p *conekta.SubscriptionParams) (*conekta.Subscription, error) {
 	sub := &conekta.Subscription{}
 	err := conekta.MakeRequest("POST", "/customers/"+id+"/subscription", p, sub)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, sub)
+		return sub, nil
+	}
 	return sub, err
 }
 
 func Resume(id string) (*conekta.Subscription, error) {
 	sub := &conekta.Subscription{}
 	err := conekta.MakeRequest("POST", "/customers/"+id+"/subscription/resume", &conekta.SubscriptionParams{}, sub)
+	if err != nil && err.(conekta.Error).ErrorType == "processing_error" {
+		json.Unmarshal(err.(conekta.Error).Data, sub)
+		return sub, nil
+	}
 	return sub, err
 }
 
